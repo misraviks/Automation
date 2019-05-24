@@ -1,0 +1,15 @@
+D:\Projects\Automation\Automation\Automation\bin\Debug\Automation.exe.config
+D:\Projects\Automation\Automation\Automation\bin\Debug\Automation.exe
+D:\Projects\Automation\Automation\Automation\bin\Debug\Automation.pdb
+D:\Projects\Automation\Automation\Automation\bin\Debug\WebDriver.dll
+D:\Projects\Automation\Automation\Automation\bin\Debug\WebDriver.Support.dll
+D:\Projects\Automation\Automation\Automation\bin\Debug\WebDriver.xml
+D:\Projects\Automation\Automation\Automation\bin\Debug\WebDriver.Support.xml
+D:\Projects\Automation\Automation\Automation\obj\Debug\Automation.csprojAssemblyReference.cache
+D:\Projects\Automation\Automation\Automation\obj\Debug\Automation.csproj.CoreCompileInputs.cache
+D:\Projects\Automation\Automation\Automation\obj\Debug\Automation.csproj.CopyComplete
+D:\Projects\Automation\Automation\Automation\obj\Debug\Automation.exe
+D:\Projects\Automation\Automation\Automation\obj\Debug\Automation.pdb
+D:\Projects\Automation\Automation\Automation\bin\Debug\nunit.framework.dll
+D:\Projects\Automation\Automation\Automation\bin\Debug\nunit.framework.pdb
+D:\Projects\Automation\Automation\Automation\bin\Debug\nunit.framework.xml
