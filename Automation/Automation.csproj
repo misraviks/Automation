@@ -57,15 +57,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ActionOnLogin.cs" />
     <Compile Include="Actions\Helper.cs" />
+    <Compile Include="Interface\ILogin.cs" />
+    <Compile Include="Interface\Login.cs" />
     <Compile Include="Actions\Operations.cs" />
+    <Compile Include="Classes\Serializer.cs" />
+    <Compile Include="Classes\Story.cs" />
+    <Compile Include="Classes\SubTask.cs" />
     <Compile Include="Actions\WebDriverHelper.cs" />
+    <Compile Include="Classes\AppendAction.cs" />
     <Compile Include="Classes\Utility.cs" />
+    <Compile Include="Classes\CreateSubTaskInJira.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="Classes\GetHours.cs" />
+    <Compile Include="Interface\IAction.cs" />
+    <Compile Include="Interface\IActionRequired.cs" />
     <Compile Include="Pages\CSharpStar.cs" />
     <Compile Include="Pages\ERPLoginPage.cs" />
     <Compile Include="Pages\JiraLoginPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Classes\SaveStoriesToFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

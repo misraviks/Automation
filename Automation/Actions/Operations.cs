@@ -7,6 +7,8 @@ using OpenQA.Selenium.Support.UI;
 using System.Configuration;
 using OpenQA.Selenium.Interactions;
 using System.Linq;
+using System.Collections.ObjectModel;
+using System.IO;
 
 public class Operations
 {
@@ -18,9 +20,12 @@ public class Operations
     {
         try
         {
-            
+
             if (UseAction == 0)
-            element.SendKeys(value);
+            {
+                element.Clear();
+                element.SendKeys(value);
+            }
             else
             {
                 Actions actions = new Actions(WebDriverHelper.driver);
@@ -88,11 +93,25 @@ public class Operations
             
         }
     }
+
+    public static void ExecuteJs(String Js)
+    {
+        try
+        {
+            ((IJavaScriptExecutor)WebDriverHelper.driver).ExecuteScript(Js);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message +":In ExecuteJs");
+        }
+    }
+
     // Move To Element
     public static IWebElement OpenNewTab(String url)
     {
-        List<string> handles = WebDriverHelper.driver.WindowHandles.ToList();
+        
         ((IJavaScriptExecutor)WebDriverHelper.driver).ExecuteScript("window.open();");
+        List<string> handles = WebDriverHelper.driver.WindowHandles.ToList();
         currentHandle = handles[handles.Count-1];
         WebDriverHelper.driver.SwitchTo().Window(handles[handles.Count-1 ]);
         WebDriverHelper.driver.Navigate().GoToUrl(url);
@@ -105,13 +124,27 @@ public class Operations
         try
         {
             Actions actions = new Actions(WebDriverHelper.driver);
-            actions.MoveToElement(element);
+            actions.MoveToElement(element).ContextClick();
             actions.Perform();
         }
         catch (Exception e)
         {
             Console.WriteLine("Exception Caught");
             throw new Exception(e.Message);
+        }
+    }
+    public static Actions GetActionForElement(IWebElement element)
+    {
+        try
+        {
+            Actions actions = new Actions(WebDriverHelper.driver);
+            return actions;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception Caught");
+            throw new Exception(e.Message);
+            
         }
     }
 
@@ -310,6 +343,7 @@ public class Operations
     public static IWebElement WaitUntilElementIsPresent( By by, int timeout = 0)
     {
         IWebElement webElement;
+        DateTime dtStart = DateTime.Now;
         while (true)
         {
             try
@@ -319,6 +353,33 @@ public class Operations
                 {
                     break;
                 }
+                DateTime dtEnd = DateTime.Now;
+                TimeSpan ts = dtEnd - dtStart;
+                
+                if (timeout>0 && ts.Minutes > timeout)
+                {
+                    Console.WriteLine($"Element Not Found after {timeout} minutes. ");
+                    break;
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($" Error in finding element:{ex.Message}");
+            }
+        }
+        return webElement;
+        
+    }
+
+    public static ReadOnlyCollection<IWebElement> ListOfElementIsPresent(By by, int timeout = 0)
+    {
+        ReadOnlyCollection<IWebElement> webElement;
+        while (true)
+        {
+            try
+            {
+                webElement = WebDriverHelper.driver.FindElements(by);
+                break;
             }
             catch
             {
@@ -326,9 +387,9 @@ public class Operations
             }
         }
         return webElement;
-        
+
     }
-  
+
     // JavaScript scroll to bottom
     public static void scrollToBottom()
     {
@@ -386,6 +447,47 @@ public class Operations
             Console.WriteLine("Exception Caught");
             throw new Exception(e.Message);
         }
+    }
+
+    public static List<Story> readStoryFile(String FileName)
+    {
+        String storyData = "";
+        List<Story> stories = new List<Story>();
+       try
+        {
+            if (File.Exists(FileName))
+            {
+                storyData = File.ReadAllText(FileName);
+                string[] data = storyData.Trim().Split('#');
+                foreach (String s in data)
+                {
+                    if (s.Contains("StoryFormat")) continue;
+                    string[] details = s.Trim().Split('|');
+                    Story story = new Story();
+                    story.StoryNumber = details[0];
+                    story.Assignee = details[1];
+                    story.FixVersion = details[2];
+                    story.Component = details[3];
+                    story.SubTasks = new List<SubTask>();
+                    for (int i = 4; i < details.Length - 1;)
+                    {
+                        SubTask storySubTask = new SubTask()
+                        {
+                            Name = details[i++ ],
+                            EstimatedHours= details[i++]
+                        };
+                        story.SubTasks.Add(storySubTask);
+                    }
+                    stories.Add(story);
+                }
+
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        return stories;
     }
 
     // JavaScript scroll to postion      
@@ -450,4 +552,3 @@ public class Operations
         }
     }
 }
-
