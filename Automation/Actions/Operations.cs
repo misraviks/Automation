@@ -176,6 +176,18 @@ public class Operations
         }
     }
 
+    public static void SaveScreenShots(String FileName)
+    {
+        try
+        {
+            Screenshot shot = ((ITakesScreenshot)WebDriverHelper.driver).GetScreenshot();
+            shot.SaveAsFile(FileName, ScreenshotImageFormat.Jpeg);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error in taking ScreenShot{ex.Message}");
+        }
+    }
     // Selecting a drop down control
     public static void SelectDropDownByText(IWebElement element, String value)
     {
@@ -342,29 +354,33 @@ public class Operations
     }
     public static IWebElement WaitUntilElementIsPresent( By by, int timeout = 0)
     {
-        IWebElement webElement;
+        IWebElement webElement=null;
         DateTime dtStart = DateTime.Now;
+        TimeSpan ts = dtStart - DateTime.Now.AddDays(-1) ;
         while (true)
         {
             try
             {
-                webElement= WebDriverHelper.driver.FindElement(by);
-                if (webElement.Displayed)
-                {
-                    break;
-                }
                 DateTime dtEnd = DateTime.Now;
-                TimeSpan ts = dtEnd - dtStart;
-                
-                if (timeout>0 && ts.Minutes > timeout)
+                ts = dtEnd - dtStart;
+                if (timeout > 0 && ts.Minutes > timeout)
                 {
                     Console.WriteLine($"Element Not Found after {timeout} minutes. ");
                     break;
                 }
+                webElement = WebDriverHelper.driver.FindElement(by);
+                if (webElement.Displayed)
+                {
+                    break;
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($" Error in finding element:{ex.Message}");
+            }
+            finally
+            {
+
             }
         }
         return webElement;
