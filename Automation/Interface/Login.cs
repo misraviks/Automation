@@ -7,5 +7,9 @@ public class Login
     public String UserName { get; set; }
     public String Password { get; set; }
     public List<Story> Stories { get; set; }
+    public override string ToString()
+    {
+        return $"{UserName}";
+    }
 
 }

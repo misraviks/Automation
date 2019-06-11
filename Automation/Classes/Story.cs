@@ -9,7 +9,16 @@ public class Story
     public String Assignee { get; set; }
     public String Component { get; set; }
     public String FixVersion { get; set; }
-    
+    public override string ToString()
+    {
+        //string data = "";
+        Int32 totalHour = 0;
+        foreach (SubTask task in SubTasks)
+        {
+            totalHour += GetHours.Minutes(task.EstimatedHours);
+        }
+        return $"Story      :GLRH-{ StoryNumber.PadRight(44,' ')} \t Assigned to : {Assignee} \t Time :{GetHours.GetTime(totalHour).PadRight(11,' ')}|";
+    }
 
 }
 

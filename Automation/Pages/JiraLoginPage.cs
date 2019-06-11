@@ -102,7 +102,7 @@ public class JiraLoginPage : Operations, ILogin
         System.Console.WriteLine("Creating Sub Task For Ticket Number:"+TicketNumber);
         webElement = WaitUntilElementIsPresent(By.CssSelector(startSubTaskingCss));
         ExecuteJs("$(\"a:contains('sub-task')\").click();"); 
-        Waits(2);
+        Waits(5);
         System.Console.WriteLine("SubTask Menu Opened!");  
     }
     public void FillSubTask(SubTaskEnum subTask, string assignee="", string estimatedHour="1h", bool checkBox=false, string fixversion = "", string component = "")
@@ -152,8 +152,10 @@ public class JiraLoginPage : Operations, ILogin
         if (component.Length > 0) componentValue = component;
         webElement = WaitUntilElementIsPresent(By.Id(subtaskSummaryId));
         EnterText(webElement, subTask);
+        Waits(3);
         webElement = WaitUntilElementIsPresent(By.Id(fixesVersionId));
         EnterText(webElement, FixedVersionValue);
+        Waits(3);
         webElement = WaitUntilElementIsPresent(By.Id(componentId));
         EnterText(webElement, componentValue);
         if (assignee.Length <= 0)
@@ -167,11 +169,12 @@ public class JiraLoginPage : Operations, ILogin
             EnterText(webElement, assignee);
             Waits(1);
             ExecuteJs($"$(\"a:contains('{assignee}')\").click();");
-            Waits(1);
+            Waits(3);
         }
 
         webElement = WaitUntilElementIsPresent(By.Id(timetrackingId));
         EnterText(webElement, estimatedHour);
+        Waits(3);
         webElement = WaitUntilElementIsPresent(By.Id(createAnotherId));
         if (checkBox)
         {
@@ -187,7 +190,7 @@ public class JiraLoginPage : Operations, ILogin
         webElement = WaitUntilElementIsPresent(By.Id(submitSubTaskId));
         webElement.Submit();
         //System.Console.WriteLine($"SubTask :{subTask} created!");
-        Waits(10);
+        Waits(5);
     }
     public void CreateSubTask1()
     {
