@@ -9,6 +9,7 @@ using OpenQA.Selenium.Interactions;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.IO;
+using OpenQA.Selenium.Remote;
 
 public class Operations
 {
@@ -221,6 +222,32 @@ public class Operations
         try
         {
             WebDriverHelper.driver = new ChromeDriver();
+
+            parentHandle = WebDriverHelper.driver.CurrentWindowHandle;
+            winHandleBefore = parentHandle;
+            //WebDriverHelper.driver.Manage().Timeouts().ImplicitWait=10;
+            WebDriverHelper.driver.Manage().Window.Maximize();
+            //WebDriverHelper.helperModules = new HelperModules(WebDriverHelper.driver);
+            //WebDriverHelper helper = new WebDriverHelper();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception Caught");
+            throw new Exception(e.Message);
+        }
+    }
+    public static void openBrowserWithExtension(string pathToExtension)
+    {
+        try
+        {
+            ChromeOptions options = new ChromeOptions();
+            //DesiredCapabilities capabilities = new DesiredCapabilities();
+            options.AddArguments("load-extension=" +pathToExtension);
+            //options.AddArguments("user - data - dir = "+pathToExtension);
+
+            //options.AddArguments("–start - maximized");
+            //capabilities.SetCapability(ChromeOptions.Capability, options);
+            WebDriverHelper.driver = new ChromeDriver(options);
 
             parentHandle = WebDriverHelper.driver.CurrentWindowHandle;
             winHandleBefore = parentHandle;

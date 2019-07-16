@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Classes\ActionOnLogin.cs" />
     <Compile Include="Actions\Helper.cs" />
+    <Compile Include="Classes\Download.cs" />
     <Compile Include="Interface\ILogin.cs" />
     <Compile Include="Interface\Login.cs" />
     <Compile Include="Actions\Operations.cs" />
