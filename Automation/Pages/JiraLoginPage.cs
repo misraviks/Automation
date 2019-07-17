@@ -98,7 +98,7 @@ public class JiraLoginPage : Operations, ILogin
 
     public void OpenSubTaskMenu(string TicketNumber)
     {
-        openURL($"{baseUrl}browse/GLRH-"+TicketNumber);
+        openURL($"{baseUrl}browse/GLRH-{TicketNumber}?oldIssueView=true");
         System.Console.WriteLine("Creating Sub Task For Ticket Number:"+TicketNumber);
         webElement = WaitUntilElementIsPresent(By.CssSelector(startSubTaskingCss));
         ExecuteJs("$(\"a:contains('sub-task')\").click();"); 
