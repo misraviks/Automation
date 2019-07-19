@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,13 +10,26 @@ namespace Automation.Classes
 {
     class Download : Operations, ILogin
     {
-        public static string baseUrl = "https://www.youtube.com/watch?v=5KFCD-DxEhw";
+        public static string baseUrl = "https://globallogic.udemy.com/";
+        public static string udemyJsDownload = "var videoLink = document.querySelector(\".vjs - tech\").getAttribute('src');window.open(videoLink,'_blank');";
+        public static string loginInputId = "email";
+        public static string continueClickJS = "$(\"button:contains('Continue')\").click();";
+        public static string loginClickJS = "$(\"button:contains('Log In')\").click();";
+        public static string loginId = "amar.srivastava@globallogic.com";
+        public static string passwordInputId = "password";
+        public static string password = "";
+        public static string myCoursesURL = "https://globallogic.udemy.com/home/my-courses/learning/";
+        private IWebElement webElement;
         public void Login()
         {
            string  dir = Directory.GetCurrentDirectory();
-           openBrowserWithExtension(dir+"\\AVD-CRX-4.3-Release");
+            openBrowser();
             openURL(baseUrl);
-
+            webElement = WaitUntilElementIsPresent(By.Id(loginInputId));
+            EnterText(webElement, loginId);
+            ExecuteJs(continueClickJS);
+            webElement = WaitUntilElementIsPresent(By.Id(passwordInputId));
+            EnterText(webElement, password);
         }
 
         public void Logout()
